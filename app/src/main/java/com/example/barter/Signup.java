@@ -140,6 +140,10 @@ public class Signup extends Fragment {
         bttn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(!validateFname() | !validateMname() | !validateLname() | !validateAddress() | !validateDOB()){
+                    return;
+                }
                 SignupSubmitInfo signupSubmitInfo = new SignupSubmitInfo();
 
                 Bundle bundle = new Bundle();
@@ -164,6 +168,51 @@ public class Signup extends Fragment {
 
        return view;
 
+    }
+    public boolean validateFname(){
+        if(edt_fname.getEditText().getText().toString().isEmpty()){
+            edt_fname.setError("Field Must not be Empty");
+            return false;
+        }else{
+            edt_fname.setError(null);
+            return  true;
+        }
+    }
+    public boolean validateMname(){
+        if(edt_mname.getEditText().getText().toString().isEmpty()){
+            edt_mname.setError("Field Must not be Empty");
+            return false;
+        }else{
+            edt_mname.setError(null);
+            return  true;
+        }
+    }
+    public boolean validateLname(){
+        if(edt_lname.getEditText().getText().toString().isEmpty()){
+            edt_lname.setError("Field Must not be Empty");
+            return false;
+        }else{
+            edt_lname.setError(null);
+            return  true;
+        }
+    }
+    public boolean validateAddress(){
+        if(edt_address.getEditText().getText().toString().isEmpty()){
+            edt_address.setError("Field Must not be Empty");
+            return false;
+        }else{
+            edt_address.setError(null);
+            return  true;
+        }
+    }
+    public boolean validateDOB(){
+        if(edt_dob.getText().toString().isEmpty()){
+            edt_dob.setError("Field Must not be Empty");
+            return false;
+        }else{
+            edt_dob.setError(null);
+            return  true;
+        }
     }
 
 }
