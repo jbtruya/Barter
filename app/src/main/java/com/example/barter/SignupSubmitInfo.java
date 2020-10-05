@@ -112,6 +112,11 @@ public class SignupSubmitInfo extends Fragment {
         bttn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(!validateUsername() | !validatePassword()){
+                    return;
+                }
+
                 requestQueue = Volley.newRequestQueue(getContext());
 
                 stringRequest = new StringRequest(Request.Method.POST,
@@ -174,5 +179,38 @@ public class SignupSubmitInfo extends Fragment {
         //END para sa back button sa phone
 
         return view;
+    }
+
+    public boolean validateUsername(){
+        if(edt_username.getEditText().getText().toString().isEmpty()){
+            edt_username.setError("Field can't be empty");
+                return false;
+        }
+        else{
+            edt_username.setError(null);
+            return true;
+        }
+    }
+    public boolean validatePassword(){
+        if(edt_password.getEditText().getText().toString().isEmpty()){
+            edt_password.setError("Field can't be empty");
+            return false;
+        }
+
+         else if(edt_confirmPass.getEditText().getText().toString().isEmpty()){
+            edt_password.setError(null);
+            edt_confirmPass.setError("Field can't be empty");
+            return false;
+        }
+         else if(!edt_password.getEditText().getText().toString().equals(edt_confirmPass.getEditText().getText().toString())){
+            edt_password.setError(null);
+            edt_confirmPass.setError("Password Doest not match");
+            return false;
+        }
+         else{
+
+            edt_confirmPass.setError(null);
+            return true;
+        }
     }
 }
