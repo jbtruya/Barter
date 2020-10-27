@@ -85,7 +85,19 @@ public class Signin extends Fragment {
 
             }
         });
-        // END START Open Sign in Fragment
+        // END Open Sign in Fragment
+        //START Open Sign in Fragment
+        bttn_signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_mainDisplay, new SigninSubmitInfo())
+                        .addToBackStack("SigninSubmitInfo")
+                        .commit();
+            }
+        });
+        //END Open Sig in Fragment
         return view;
     }
 }

@@ -180,7 +180,7 @@ public class SignupSubmitInfo extends Fragment {
 
         return view;
     }
-
+        // START input Validation
     public boolean validateUsername(){
         if(edt_username.getEditText().getText().toString().isEmpty()){
             edt_username.setError("Field can't be empty");
@@ -213,4 +213,5 @@ public class SignupSubmitInfo extends Fragment {
             return true;
         }
     }
+    // END input Validation
 }
