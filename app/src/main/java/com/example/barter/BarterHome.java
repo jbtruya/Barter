@@ -2,11 +2,15 @@ package com.example.barter;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class BarterHome extends Fragment {
@@ -18,6 +22,8 @@ public class BarterHome extends Fragment {
 
     private String mParam1;
     private String mParam2;
+
+    BottomNavigationView bottomNavigationView;
 
     public BarterHome() {
 
@@ -46,6 +52,28 @@ public class BarterHome extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_barter_home, container, false);
+        bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_home:
+                        return true;
+
+                    case R.id.menu_add:
+                        getFragmentManager().beginTransaction().replace(R.id.frame_display, new addItem()).commit();
+                        return true;
+
+                    case R.id.menu_profile:
+                        return true;
+
+                }
+
+                return false;
+            }
+        });
+
         return view;
     }
 }
