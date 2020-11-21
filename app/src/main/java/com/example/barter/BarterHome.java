@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,6 +26,9 @@ public class BarterHome extends Fragment {
 
     BottomNavigationView bottomNavigationView;
 
+
+    User user;
+    Bundle bundle;
     public BarterHome() {
 
     }
@@ -52,7 +56,13 @@ public class BarterHome extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_barter_home, container, false);
+
+        bundle = getArguments();
+        user = (User) bundle.getSerializable("userInfo");
+
+
         bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -62,7 +72,10 @@ public class BarterHome extends Fragment {
                         return true;
 
                     case R.id.menu_add:
-                        getFragmentManager().beginTransaction().replace(R.id.frame_display, new addItem()).commit();
+                        addItem addItem = new addItem();
+                        bundle.putSerializable("userInfo",user);
+                        addItem.setArguments(bundle);
+                        getFragmentManager().beginTransaction().replace(R.id.frame_display, addItem).commit();
                         return true;
 
                     case R.id.menu_profile:

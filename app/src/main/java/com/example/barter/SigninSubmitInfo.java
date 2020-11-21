@@ -1,9 +1,12 @@
 package com.example.barter;
 
+import android.app.Application;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
@@ -42,6 +48,8 @@ public class SigninSubmitInfo extends Fragment {
     TextInputLayout edt_username;
     TextInputLayout edt_password;
 
+    User user;
+    Bundle bundle;
     public SigninSubmitInfo() {
 
     }
@@ -70,6 +78,8 @@ public class SigninSubmitInfo extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_signin_submit_info, container, false);
 
+        user = new User();
+        bundle = new Bundle();
         //Initialize Views
         edt_username = view.findViewById(R.id.edt_username);
         edt_password = view.findViewById(R.id.edt_password);
@@ -86,27 +96,42 @@ public class SigninSubmitInfo extends Fragment {
                 requestQueue = Volley.newRequestQueue(getContext());
 
                 stringRequest = new StringRequest(Request.Method.POST,
-                        "https://xototlprojects.com/AndroidPHP/verifyUser.php"
+                        "https://xototlprojects.com/AndroidPHP/androidGetUserInfo.php"
                         , new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("userinfo");
 
-                        if(response.equals("User Verified!")){
-                            Toast.makeText(getContext(), "User Verified!", Toast.LENGTH_LONG).show();
+                            for(int i = 0; i < jsonArray.length(); i++){
+                                JSONObject jObject = jsonArray.getJSONObject(i);
+
+                                                user.setAccountid(Integer.valueOf(jObject.getString("accountid")));
+                                                user.setUsername(jObject.getString("username"));
+
+                            }
+
+
+                            BarterHome barterHome = new BarterHome();
+                            bundle.putSerializable("userInfo", user);
+
+                            getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                            barterHome.setArguments(bundle);
                             getFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.frame_mainDisplay, new BarterHome())
-                                    .addToBackStack("BarterHome")
+                                    .replace(R.id.frame_mainDisplay, barterHome)
                                     .commit();
-                        }else{
-                            Toast.makeText(getContext(), "Invalid User!", Toast.LENGTH_LONG).show();
-                        }
 
+                        }catch (JSONException errmsg){
+                            Toast.makeText(getContext(), "Inavlid Details", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(getContext(), "AN Error Occurred!", Toast.LENGTH_LONG).show();
                     }
                 })
                 {
@@ -115,16 +140,18 @@ public class SigninSubmitInfo extends Fragment {
 
                         HashMap<String, String> map = new HashMap<>();
 
-                        map.put("1username", edt_username.getEditText().getText().toString());
-                        map.put("1password", edt_password.getEditText().getText().toString());
+                        map.put("username", edt_username.getEditText().getText().toString());
+                        map.put("password", edt_password.getEditText().getText().toString());
 
                         return map;
                     }
                 };
                 requestQueue.add(stringRequest);
+
             }
         });
         //END Submit signin info
+
         return view;
     }
 }

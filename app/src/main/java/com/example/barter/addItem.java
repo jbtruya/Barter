@@ -54,7 +54,8 @@ public class addItem extends Fragment {
     TextInputLayout edt_product_name;
     TextInputLayout edt_listing_details;
 
-
+    User user;
+    Bundle bundle;
     public addItem() {
         // Required empty public constructor
     }
@@ -82,6 +83,10 @@ public class addItem extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_item, container, false);
+
+        bundle = getArguments();
+        user = (User) bundle.getSerializable("userInfo");
+
 
         bttn_selectImage = view.findViewById(R.id.bttn_selectImage);
         bttn_addListing = view.findViewById(R.id.bttn_addListing);
@@ -157,6 +162,7 @@ public class addItem extends Fragment {
                 map.put("image",imageString);
                 map.put("product_name", product_name);
                 map.put("listing_details", listing_details);
+                map.put("accountid",String.valueOf(user.getAccountid()));
 
                 return map;
             }
