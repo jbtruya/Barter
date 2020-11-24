@@ -69,6 +69,10 @@ public class BarterHome extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_home:
+                        Listingfeed listingfeed = new Listingfeed();
+                        bundle.putSerializable("userInfo",user);
+                        listingfeed.setArguments(bundle);
+                        getFragmentManager().beginTransaction().replace(R.id.frame_display,listingfeed).commit();
                         return true;
 
                     case R.id.menu_add:

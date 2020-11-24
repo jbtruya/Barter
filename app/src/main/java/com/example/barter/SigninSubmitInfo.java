@@ -93,65 +93,71 @@ public class SigninSubmitInfo extends Fragment {
         bttn_submit_SignupInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestQueue = Volley.newRequestQueue(getContext());
-
-                stringRequest = new StringRequest(Request.Method.POST,
-                        "https://xototlprojects.com/AndroidPHP/androidGetUserInfo.php"
-                        , new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try{
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = jsonObject.getJSONArray("userinfo");
-
-                            for(int i = 0; i < jsonArray.length(); i++){
-                                JSONObject jObject = jsonArray.getJSONObject(i);
-
-                                                user.setAccountid(Integer.valueOf(jObject.getString("accountid")));
-                                                user.setUsername(jObject.getString("username"));
-
-                            }
-
-
-                            BarterHome barterHome = new BarterHome();
-                            bundle.putSerializable("userInfo", user);
-
-                            getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                            barterHome.setArguments(bundle);
-                            getFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.frame_mainDisplay, barterHome)
-                                    .commit();
-
-                        }catch (JSONException errmsg){
-                            Toast.makeText(getContext(), "Inavlid Details", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "AN Error Occurred!", Toast.LENGTH_LONG).show();
-                    }
-                })
-                {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-
-                        HashMap<String, String> map = new HashMap<>();
-
-                        map.put("username", edt_username.getEditText().getText().toString());
-                        map.put("password", edt_password.getEditText().getText().toString());
-
-                        return map;
-                    }
-                };
-                requestQueue.add(stringRequest);
-
+                    SignInUser(edt_username.getEditText().getText().toString(),edt_password.getEditText().getText().toString());
             }
         });
         //END Submit signin info
 
         return view;
+    }
+
+
+    public void SignInUser(final String username, final String password){
+
+        requestQueue = Volley.newRequestQueue(getContext());
+
+        stringRequest = new StringRequest(Request.Method.POST,
+                "https://xototlprojects.com/AndroidPHP/androidGetUserInfo.php"
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("userinfo");
+
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jObject = jsonArray.getJSONObject(i);
+
+                        user.setAccountid(Integer.valueOf(jObject.getString("accountid")));
+                        user.setUsername(jObject.getString("username"));
+
+                    }
+
+
+                    BarterHome barterHome = new BarterHome();
+                    bundle.putSerializable("userInfo", user);
+
+                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                    barterHome.setArguments(bundle);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame_mainDisplay, barterHome)
+                            .commit();
+
+                }catch (JSONException errmsg){
+                    Toast.makeText(getContext(), "Inavlid Details", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "AN Error Occurred!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                HashMap<String, String> map = new HashMap<>();
+
+                map.put("username", username);
+                map.put("password", password);
+
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+
     }
 }
