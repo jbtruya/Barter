@@ -40,9 +40,12 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String product_name = String.valueOf(listings.get(position).getProduct_name());
+        String listing_details = String.valueOf(listings.get(position).getListing_details());
         String imageLocation = String.valueOf(listings.get(position).getImageURL());
         holder.tv_product_name.setText(product_name);
         Picasso.get().load(imageURL+imageLocation).resize(250,250).into(holder.listing_image);
+        holder.tv_listing_details.setText(listing_details);
+
 
     }
 

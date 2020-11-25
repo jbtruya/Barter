@@ -1,16 +1,21 @@
 package com.example.barter;
 
 import android.app.Application;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -42,6 +47,7 @@ public class SigninSubmitInfo extends Fragment {
 
     RequestQueue requestQueue;
     StringRequest stringRequest;
+
 
     Button bttn_submit_SignupInfo;
 
@@ -80,7 +86,9 @@ public class SigninSubmitInfo extends Fragment {
 
         user = new User();
         bundle = new Bundle();
+
         //Initialize Views
+
         edt_username = view.findViewById(R.id.edt_username);
         edt_password = view.findViewById(R.id.edt_password);
 
@@ -103,6 +111,9 @@ public class SigninSubmitInfo extends Fragment {
 
 
     public void SignInUser(final String username, final String password){
+       final Dialog Progressdialog = showSigningInDialog();
+
+        Progressdialog.show();
 
         requestQueue = Volley.newRequestQueue(getContext());
 
@@ -111,7 +122,9 @@ public class SigninSubmitInfo extends Fragment {
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 try{
+
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("userinfo");
 
@@ -120,15 +133,12 @@ public class SigninSubmitInfo extends Fragment {
 
                         user.setAccountid(Integer.valueOf(jObject.getString("accountid")));
                         user.setUsername(jObject.getString("username"));
-
                     }
-
-
+                    Progressdialog.hide();
+                    Progressdialog.dismiss();
                     BarterHome barterHome = new BarterHome();
                     bundle.putSerializable("userInfo", user);
-
                     getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
                     barterHome.setArguments(bundle);
                     getFragmentManager()
                             .beginTransaction()
@@ -136,13 +146,18 @@ public class SigninSubmitInfo extends Fragment {
                             .commit();
 
                 }catch (JSONException errmsg){
+                    Progressdialog.hide();
+                    Progressdialog.dismiss();
                     Toast.makeText(getContext(), "Inavlid Details", Toast.LENGTH_LONG).show();
+
                 }
             }
-        }, new Response.ErrorListener() {
+        },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getContext(), "AN Error Occurred!", Toast.LENGTH_LONG).show();
+                Progressdialog.hide();
+                Progressdialog.dismiss();
             }
         })
         {
@@ -160,4 +175,15 @@ public class SigninSubmitInfo extends Fragment {
         requestQueue.add(stringRequest);
 
     }
+
+    public Dialog showSigningInDialog(){
+        Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.signin_progress_dialog);
+
+        dialog.setCancelable(false);
+        return dialog;
+
+        }
+
 }
