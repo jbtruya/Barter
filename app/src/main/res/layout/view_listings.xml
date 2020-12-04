@@ -30,6 +30,7 @@
             android:layout_marginBottom="7dp"
             android:ellipsize="start"
             android:text="Product Name"
+            android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/tv_listing_details"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -43,6 +44,7 @@
             android:layout_marginBottom="13dp"
             android:ellipsize="start"
             android:text="Tap to view the details"
+            android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/imageView_listingImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -67,6 +69,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/tv_datelisted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="13dp"
+            android:text="TextView"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_authorname"
+            android:layout_width="236dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="68dp"
+            android:ellipsize="start"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_datelisted"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
