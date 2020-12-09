@@ -13,6 +13,16 @@ public class User implements Serializable {
     }
 
     private int accountid;
+
+    public String getUserimage() {
+        return userimage;
+    }
+
+    public void setUserimage(String userimage) {
+        this.userimage = userimage;
+    }
+
+    private String userimage;
     private String fname;
     private String mname;
     private String lname;

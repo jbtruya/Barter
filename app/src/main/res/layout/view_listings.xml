@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="420dp"
     android:layout_marginBottom="10dp"
-    app:cardElevation="20dp">
+    app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,8 +14,9 @@
         <ImageView
             android:id="@+id/imageView_listingImage"
             android:layout_width="match_parent"
-            android:layout_height="247dp"
+            android:layout_height="230dp"
             android:layout_marginBottom="9dp"
+            android:elevation="10dp"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,35 +32,47 @@
             android:ellipsize="start"
             android:text="Product Name"
             android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tv_listing_details"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_listing_details"
-            android:layout_width="383dp"
+            android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="13dp"
-            android:ellipsize="start"
+            android:layout_marginBottom="7dp"
+            android:ellipsize="end"
+            android:maxLength="50"
+            android:singleLine="true"
             android:text="Tap to view the details"
             android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/imageView_listingImage"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_readmore"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bttn_custom_ripple_signin"
+            android:drawableLeft="@drawable/ic_baseline_message_24"
+            android:ellipsize="middle"
+            android:gravity="center"
+            android:paddingLeft="150dp"
+            android:paddingRight="150dp"
+            android:text="Message"
+            android:textColor="#FFFFFF"
+            android:textColorLink="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imageView_userimage"
             android:layout_width="37dp"
             android:layout_height="30dp"
             android:layout_marginStart="16dp"
@@ -85,16 +98,27 @@
             android:id="@+id/tv_authorname"
             android:layout_width="236dp"
             android:layout_height="19dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="68dp"
             android:ellipsize="start"
             android:text="TextView"
             android:textColor="#000000"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_datelisted"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/imageView_userimage"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_readmore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="6dp"
+            android:text="Tap Read more"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_listingImage"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

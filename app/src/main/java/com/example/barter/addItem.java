@@ -1,6 +1,7 @@
 package com.example.barter;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -28,6 +30,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +57,9 @@ public class addItem extends Fragment {
 
     TextInputLayout edt_product_name;
     TextInputLayout edt_listing_details;
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    String currentDate;
 
     User user;
     Bundle bundle;
@@ -108,11 +115,13 @@ public class addItem extends Fragment {
         bttn_addListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                addListing(edt_product_name.getEditText().getText().toString(),edt_listing_details.getEditText().getText().toString());
+                currentDate = dateFormat.format(new Date());
+                addListing(edt_product_name.getEditText().getText().toString(),edt_listing_details.getEditText().getText().toString(),currentDate);
 
             }
         });
+
+
 
 
         return view;
@@ -135,7 +144,10 @@ public class addItem extends Fragment {
             }
         }
     }
-    public void addListing(final String product_name, final String listing_details) {
+    public void addListing(final String product_name, final String listing_details, final String currentDate) {
+
+        final Dialog Progressdialog = showUploadingDialog();
+        Progressdialog.show();
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
@@ -146,11 +158,15 @@ public class addItem extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Progressdialog.hide();
+                        Progressdialog.dismiss();
                         Toast.makeText(getContext(),"Listing Created!",Toast.LENGTH_LONG).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                         Progressdialog.hide();
+                         Progressdialog.dismiss();
                         Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_LONG).show();
             }
         })
@@ -163,11 +179,23 @@ public class addItem extends Fragment {
                 map.put("product_name", product_name);
                 map.put("listing_details", listing_details);
                 map.put("accountid",String.valueOf(user.getAccountid()));
+                map.put("datelisted",currentDate);
 
                 return map;
             }
         };
         requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
+    }
+
+
+    public Dialog showUploadingDialog(){
+        Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.uploading_listing_dialog);
+
+        dialog.setCancelable(false);
+        return dialog;
+
     }
 }

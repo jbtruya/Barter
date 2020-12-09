@@ -83,6 +83,10 @@ public class BarterHome extends Fragment {
                         return true;
 
                     case R.id.menu_profile:
+                        userprofile userprofile = new userprofile();
+                        bundle.putSerializable("userInfo", user);
+                        userprofile.setArguments(bundle);
+                        getFragmentManager().beginTransaction().replace(R.id.frame_display, userprofile).commit();
                         return true;
 
                 }

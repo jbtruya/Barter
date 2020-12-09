@@ -1,6 +1,7 @@
 package com.example.barter;
 
 import android.app.Application;
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -72,12 +75,29 @@ public class Listingfeed extends Fragment {
 
         listings = new ArrayList<>();
         recyclerView = view.findViewById(R.id.listingfeed_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listingAdapter = new ListingAdapter(getContext(),listings);
+
 
         loadListingInfo();
+
+
+
+        listingAdapter.setOnItemClickListener(new ListingAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+              String name =  listings.get(position).getFirstname();
+              Toast.makeText(getContext(),name,Toast.LENGTH_LONG).show();
+            }
+        });
+
         return view;
     }
 
     private void loadListingInfo(){
+        final Dialog Progressdialog = showLoadingFeedDialog();
+
+        Progressdialog.show();
 
         requestQueue = Volley.newRequestQueue(getContext());
         stringRequest = new StringRequest(Request.Method.GET, "https://xototlprojects.com/AndroidPHP/androidGetlistingInfo.php",
@@ -98,15 +118,24 @@ public class Listingfeed extends Fragment {
                                                 jObject.getString("listing_details"),
                                                 Integer.parseInt(jObject.getString("accountid")),
                                                 Integer.parseInt(jObject.getString("listing_id")),
-                                                Integer.parseInt(jObject.getString("image_id"))
+                                                Integer.parseInt(jObject.getString("image_id")),
+                                                jObject.getString("firstname"),
+                                                jObject.getString("middlename"),
+                                                jObject.getString("lastname"),
+                                                jObject.getString("dateListed"),
+                                                jObject.getString("userimage")
                                         ));
 
                             }
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            listingAdapter = new ListingAdapter(getContext(),listings);
+
                             recyclerView.setAdapter(listingAdapter);
 
+                            Progressdialog.hide();
+                            Progressdialog.dismiss();
+
                         } catch (JSONException e) {
+                            Progressdialog.hide();
+                            Progressdialog.dismiss();
                             e.printStackTrace();
                         }
 
@@ -115,10 +144,22 @@ public class Listingfeed extends Fragment {
             new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Progressdialog.hide();
+                Progressdialog.dismiss();
                 Log.v("error", error.getMessage());
             }
         });
 
         requestQueue.add(stringRequest);
+    }
+
+
+    public Dialog showLoadingFeedDialog(){
+        Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.loading_listingfeed_dialog);
+
+        dialog.setCancelable(false);
+        return dialog;
     }
 }

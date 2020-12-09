@@ -133,6 +133,10 @@ public class SigninSubmitInfo extends Fragment {
 
                         user.setAccountid(Integer.valueOf(jObject.getString("accountid")));
                         user.setUsername(jObject.getString("username"));
+                        user.setUserimage(jObject.getString("userimage"));
+                        user.setFname(jObject.getString("firstname"));
+                        user.setMname(jObject.getString("middlename"));
+                        user.setLname(jObject.getString("lastname"));
                     }
                     Progressdialog.hide();
                     Progressdialog.dismiss();
