@@ -140,6 +140,7 @@ public class SigninSubmitInfo extends Fragment {
                     }
                     Progressdialog.hide();
                     Progressdialog.dismiss();
+
                     BarterHome barterHome = new BarterHome();
                     bundle.putSerializable("userInfo", user);
                     getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);

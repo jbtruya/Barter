@@ -2,6 +2,7 @@ package com.example.barter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,12 +12,15 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -40,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,8 +71,13 @@ public class userprofile extends Fragment {
     TextView tv_username;
     TextView tv_userhandler;
 
+    RecyclerView recyclerView;
 
     String imageURL = "https://xototlprojects.com/AndroidPHP/";
+
+    ListingAdapter listingAdapter;
+    Listing listing;
+    ArrayList<Listing> listings;
     public userprofile() {
 
     }
@@ -95,28 +105,46 @@ public class userprofile extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_userprofile, container, false);
 
+        //START GET USER INFO
         bundle = getArguments();
         user = (User) bundle.getSerializable("userInfo");
         getLatestUserInfo();
+        //END GET USER INFO
 
+        //START INITIALIZE VIEWS
         tv_username = view.findViewById(R.id.tv_username);
         tv_userhandler = view.findViewById(R.id.tv_userhandler);
         userimage = view.findViewById(R.id.imageView_userimage);
 
         bttn_editprofile = view.findViewById(R.id.bttn_editprofile);
         bttn_edituserimage = view.findViewById(R.id.bttn_edituserimage);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+        //END INITIALIZE VIEWS
+
+        //START CHECK IF USER HAS A PROFILE PICTURE
         if(!user.getUserimage().equals("0"))
         {
             Picasso.get().load(imageURL+user.getUserimage()).resize(150,150).into(userimage);
-        }
+        }else{
 
+        }
+        //END CHECK IF USER HAS A PROFILE PICTURE
+
+
+        listings = new ArrayList<>();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listingAdapter = new ListingAdapter(getContext(),listings,"invisible");
 
 
         updateViews();
+        loadListingInfo();
+
         YoYo.with(Techniques.Wobble)
                 .duration(1600)
                 .repeat(Animation.INFINITE)
                 .playOn(bttn_editprofile);
+
 
         bttn_editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +194,36 @@ public class userprofile extends Fragment {
                 }
             }
         });
+
+
+        listingAdapter.setOnItemClickListener(new ListingAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                listing = new Listing(listings.get(position).getImageURL(),
+                        listings.get(position).getProduct_name(),
+                        listings.get(position).getListing_details(),
+                        listings.get(position).getAccountid(),
+                        listings.get(position).getListing_id(),
+                        listings.get(position).getImage_id(),
+                        listings.get(position).getFirstname(),
+                        listings.get(position).getMiddlename(),
+                        listings.get(position).getLastname(),
+                        listings.get(position).getDatelisted(),
+                        listings.get(position).getUserimage(),
+                        "userProfile");
+
+                ViewListing viewListing = new ViewListing();
+                bundle.putSerializable("listingInfo",listing);
+                viewListing.setArguments(bundle);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_display,viewListing)
+                        .addToBackStack("userProfile")
+                        .commit();
+            }
+        });
+
+
         return view;
     }
 
@@ -289,5 +347,82 @@ public class userprofile extends Fragment {
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    private void loadListingInfo(){
+        final Dialog Progressdialog = showLoadingFeedDialog();
+
+        Progressdialog.show();
+
+        requestQueue = Volley.newRequestQueue(getContext());
+        stringRequest = new StringRequest(Request.Method.POST, "https://xototlprojects.com/AndroidPHP/androidGetUserlistingInfo.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            JSONArray jArray = obj.getJSONArray("listingInfo");
+
+                            for(int i = 0; i < jArray.length(); i++){
+                                JSONObject jObject = jArray.getJSONObject(i);
+                                listings.add(
+                                        new Listing(
+                                                jObject.getString("image_url"),
+                                                jObject.getString("product_name"),
+                                                jObject.getString("listing_details"),
+                                                Integer.parseInt(jObject.getString("accountid")),
+                                                Integer.parseInt(jObject.getString("listing_id")),
+                                                Integer.parseInt(jObject.getString("image_id")),
+                                                jObject.getString("firstname"),
+                                                jObject.getString("middlename"),
+                                                jObject.getString("lastname"),
+                                                jObject.getString("dateListed"),
+                                                jObject.getString("userimage")
+                                        ));
+
+                            }
+
+                            recyclerView.setAdapter(listingAdapter);
+
+                            Progressdialog.hide();
+                            Progressdialog.dismiss();
+
+                        } catch (JSONException e) {
+                            Progressdialog.hide();
+                            Progressdialog.dismiss();
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                      Progressdialog.hide();
+                       Progressdialog.dismiss();
+
+                        Toast.makeText(getContext(),"Error when loading feed.",Toast.LENGTH_LONG).show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("accountid",String.valueOf(user.getAccountid()));
+                return map;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
+    public Dialog showLoadingFeedDialog(){
+        Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.loading_listingfeed_dialog);
+
+        dialog.setCancelable(false);
+        return dialog;
     }
 }

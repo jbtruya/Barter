@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Listingfeed extends Fragment {
 
@@ -43,8 +44,9 @@ public class Listingfeed extends Fragment {
     StringRequest stringRequest;
 
     ListingAdapter listingAdapter;
+    Listing listing;
     ArrayList<Listing> listings;
-
+    Bundle bundle;
     public Listingfeed() {
 
     }
@@ -72,11 +74,11 @@ public class Listingfeed extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_listingfeed, container, false);
-
+        bundle = new Bundle();
         listings = new ArrayList<>();
         recyclerView = view.findViewById(R.id.listingfeed_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listingAdapter = new ListingAdapter(getContext(),listings);
+        listingAdapter = new ListingAdapter(getContext(),listings,"visible");
 
 
         loadListingInfo();
@@ -86,8 +88,28 @@ public class Listingfeed extends Fragment {
         listingAdapter.setOnItemClickListener(new ListingAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-              String name =  listings.get(position).getFirstname();
-              Toast.makeText(getContext(),name,Toast.LENGTH_LONG).show();
+
+                listing = new Listing(listings.get(position).getImageURL(),
+                        listings.get(position).getProduct_name(),
+                        listings.get(position).getListing_details(),
+                        listings.get(position).getAccountid(),
+                        listings.get(position).getListing_id(),
+                        listings.get(position).getImage_id(),
+                        listings.get(position).getFirstname(),
+                        listings.get(position).getMiddlename(),
+                        listings.get(position).getLastname(),
+                        listings.get(position).getDatelisted(),
+                        listings.get(position).getUserimage(),
+                        "listingFeed");
+
+                ViewListing viewListing = new ViewListing();
+                bundle.putSerializable("listingInfo",listing);
+                viewListing.setArguments(bundle);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_display,viewListing)
+                        .addToBackStack("listingFeed")
+                        .commit();
             }
         });
 
@@ -146,7 +168,8 @@ public class Listingfeed extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Progressdialog.hide();
                 Progressdialog.dismiss();
-                Log.v("error", error.getMessage());
+
+                Toast.makeText(getContext(),"Error when loading feed.",Toast.LENGTH_LONG).show();
             }
         });
 

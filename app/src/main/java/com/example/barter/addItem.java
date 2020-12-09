@@ -61,6 +61,7 @@ public class addItem extends Fragment {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     String currentDate;
 
+
     User user;
     Bundle bundle;
     public addItem() {

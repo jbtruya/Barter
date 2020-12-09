@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
 
     private LayoutInflater layoutInflater;
     ArrayList<Listing> listings;
-
+    String messageButtonStatus;
     String imageURL = "https://xototlprojects.com/AndroidPHP/";
 
     private OnItemClickListener mListener;
@@ -43,6 +44,9 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
         TextView tv_authorname;
         TextView tv_datelisted;
 
+        Button bttn_message;
+
+
         public ViewHolder(@NonNull View itemView,final OnItemClickListener listener) {
             super(itemView);
 
@@ -52,6 +56,8 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
             tv_product_name = itemView.findViewById(R.id.tv_product_name);
             tv_authorname = itemView.findViewById(R.id.tv_authorname);
             tv_datelisted = itemView.findViewById(R.id.tv_datelisted);
+
+            bttn_message = itemView.findViewById(R.id.bttn_message);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -68,9 +74,10 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
     }
 
 
-    ListingAdapter(Context context,ArrayList<Listing> listings){
+    ListingAdapter(Context context,ArrayList<Listing> listings,String messageButtonStatus){
             this.layoutInflater =LayoutInflater.from(context);
             this.listings = listings;
+            this.messageButtonStatus = messageButtonStatus;
     }
 
 
@@ -98,6 +105,13 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
         holder.tv_authorname.setText(authorname);
         holder.tv_datelisted.setText(datelisted);
 
+        if(messageButtonStatus.equals("visible"))
+        {
+            holder.bttn_message.setVisibility(View.VISIBLE);
+        }else
+            {
+                holder.bttn_message.setVisibility(View.INVISIBLE);
+            }
 
 
     }
