@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#FFFFFF"
+        app:itemIconTint="@drawable/bottomnav_color"
+        app:itemTextColor="@color/bnv_tab_item_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

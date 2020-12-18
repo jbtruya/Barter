@@ -101,7 +101,7 @@ public class addItem extends Fragment {
         selectedImage = view.findViewById(R.id.imageView_selectedImage);
 
         edt_product_name = view.findViewById(R.id.edt_productName);
-        edt_listing_details = view.findViewById(R.id.edt_lisingDetails);
+        edt_listing_details = view.findViewById(R.id.edt_listingDetails);
 
         bttn_selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +116,15 @@ public class addItem extends Fragment {
         bttn_addListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentDate = dateFormat.format(new Date());
-                addListing(edt_product_name.getEditText().getText().toString(),edt_listing_details.getEditText().getText().toString(),currentDate);
+                if(!checkProductNameisEmpty() | !checkListingDetailsisEmpty())
+                {
+                    return;
+                }
+                else{
+                    currentDate = dateFormat.format(new Date());
+                    addListing(edt_product_name.getEditText().getText().toString(),edt_listing_details.getEditText().getText().toString(),currentDate);
+                }
+
 
             }
         });
@@ -145,6 +152,7 @@ public class addItem extends Fragment {
             }
         }
     }
+
     public void addListing(final String product_name, final String listing_details, final String currentDate) {
 
         final Dialog Progressdialog = showUploadingDialog();
@@ -198,5 +206,29 @@ public class addItem extends Fragment {
         dialog.setCancelable(false);
         return dialog;
 
+    }
+
+    public boolean checkProductNameisEmpty(){
+        if(edt_product_name.getEditText().getText().toString().isEmpty()){
+            edt_product_name.setError(null);
+            edt_product_name.setError("Required field.");
+            return false;
+        }
+        else{
+            edt_product_name.setError(null);
+            return true;
+        }
+    }
+
+    public boolean checkListingDetailsisEmpty(){
+        if(edt_listing_details.getEditText().getText().toString().isEmpty()){
+            edt_listing_details.setError(null);
+            edt_listing_details.setError("Required field.");
+            return false;
+        }
+        else{
+            edt_listing_details.setError(null);
+            return true;
+        }
     }
 }

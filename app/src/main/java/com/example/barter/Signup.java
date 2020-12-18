@@ -37,6 +37,7 @@ public class Signup extends Fragment {
     TextInputLayout edt_mname;
     TextInputLayout edt_lname;
     TextInputLayout edt_address;
+    TextInputLayout edt_phonenumber;
     EditText edt_dob;
 
     TextView tv_dob;
@@ -76,7 +77,9 @@ public class Signup extends Fragment {
         edt_lname = view.findViewById(R.id.edt_lastname);
         edt_address = view.findViewById(R.id.edt_address);
         edt_dob = view.findViewById(R.id.edt_dob);
+        edt_phonenumber = view.findViewById(R.id.edt_phoneNumber);
         bttn_next = view.findViewById(R.id.bttn_signup_next);
+
         //END INITIALIZE VIEWS
 
         // START initial animation
@@ -141,19 +144,21 @@ public class Signup extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(!validateFname() | !validateMname() | !validateLname() | !validateAddress() | !validateDOB()){
+                if(!validateFname() | !validateMname() | !validateLname() | !validateAddress() | !validateDOB() | !validatePhoneNumer()){
                     return;
                 }
                 SignupSubmitInfo signupSubmitInfo = new SignupSubmitInfo();
 
                 Bundle bundle = new Bundle();
-                User newUser = new User(
-                        edt_fname.getEditText().getText().toString(),
-                        edt_mname.getEditText().getText().toString(),
-                        edt_lname.getEditText().getText().toString(),
-                        edt_dob.getText().toString(),
-                        edt_address.getEditText().getText().toString()
-                );
+                User newUser = new User();
+
+                newUser.setFname(edt_fname.getEditText().getText().toString());
+                newUser.setMname(edt_mname.getEditText().getText().toString());
+                newUser.setLname(edt_lname.getEditText().getText().toString());
+                newUser.setDob(edt_dob.getText().toString());
+                newUser.setAddress(edt_address.getEditText().getText().toString());
+                newUser.setPhoneNumber(edt_phonenumber.getEditText().getText().toString());
+
                 bundle.putSerializable("newUser", newUser);
                 signupSubmitInfo.setArguments(bundle);
                 getFragmentManager().beginTransaction()
@@ -212,6 +217,15 @@ public class Signup extends Fragment {
         }else{
             edt_dob.setError(null);
             return  true;
+        }
+    }
+    public boolean validatePhoneNumer(){
+        if(edt_phonenumber.getEditText().getText().toString().isEmpty()){
+            edt_phonenumber.setError("Field Must not be Empty");
+            return false;
+        }else{
+            edt_phonenumber.setError(null);
+            return true;
         }
     }
 

@@ -76,15 +76,27 @@
             <ImageView
                 android:id="@+id/imageView_listingImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:layout_marginTop="50dp"
                 android:src="@drawable/ic_baseline_image_24" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/bttn_editListing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bttn_custom_ripple_listingbutton"
+                android:text="Edit Listing"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/bttn_Offer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bttn_custom_ripple_listingbutton"
+                android:text="SEND AN OFFER"
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
     </ScrollView>

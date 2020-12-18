@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -59,9 +61,10 @@ public class BarterHome extends Fragment {
 
         bundle = getArguments();
         user = (User) bundle.getSerializable("userInfo");
-
+        bundle.putSerializable("userInfo",user);
 
         bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
+
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -70,31 +73,51 @@ public class BarterHome extends Fragment {
                 switch (item.getItemId()) {
                     case R.id.menu_home:
                         Listingfeed listingfeed = new Listingfeed();
-                        bundle.putSerializable("userInfo",user);
+                        //bundle.putSerializable("userInfo",user);
                         listingfeed.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.frame_display,listingfeed).commit();
+                        //getFragmentManager().beginTransaction().replace(R.id.frame_display,listingfeed).commit();
+                        getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
+                                .replace(R.id.frame_display,listingfeed).commit();
                         return true;
 
                     case R.id.menu_add:
                         addItem addItem = new addItem();
-                        bundle.putSerializable("userInfo",user);
+                        //bundle.putSerializable("userInfo",user);
                         addItem.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.frame_display, addItem).commit();
+                        getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_left)
+                                .replace(R.id.frame_display, addItem).commit();
+                        return true;
+
+                    case R.id.menu_search:
+                        SearchListing searchListing = new SearchListing();
+                        //bundle.putSerializable("userInfo",user);
+                        searchListing.setArguments(bundle);
+                        getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_left)
+                                .replace(R.id.frame_display, searchListing).commit();
+                        return true;
+
+                    case R.id.menu_offers:
+                        Offers offers = new Offers();
+                        //bundle.putSerializable("userInfo",user);
+                        offers.setArguments(bundle);
+                        getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_left)
+                                .replace(R.id.frame_display, offers).commit();
                         return true;
 
                     case R.id.menu_profile:
                         userprofile userprofile = new userprofile();
-                        bundle.putSerializable("userInfo", user);
+                        //bundle.putSerializable("userInfo", user);
                         userprofile.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.frame_display, userprofile).commit();
+                        getFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_left)
+                                .replace(R.id.frame_display, userprofile).commit();
                         return true;
 
                 }
-
                 return false;
             }
         });
-
+        bottomNavigationView.setSelectedItemId(R.id.menu_home);
         return view;
     }
 }

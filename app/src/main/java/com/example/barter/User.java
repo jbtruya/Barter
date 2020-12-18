@@ -3,6 +3,24 @@ package com.example.barter;
 import java.io.Serializable;
 
 public class User implements Serializable {
+    private String userimage;
+    private String fname;
+    private String mname;
+    private String lname;
+    private String dob;
+    private String address;
+    private int accountid;
+    private String username;
+    private String phoneNumber;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
 
     public int getAccountid() {
         return accountid;
@@ -12,7 +30,6 @@ public class User implements Serializable {
         this.accountid = accountid;
     }
 
-    private int accountid;
 
     public String getUserimage() {
         return userimage;
@@ -22,12 +39,6 @@ public class User implements Serializable {
         this.userimage = userimage;
     }
 
-    private String userimage;
-    private String fname;
-    private String mname;
-    private String lname;
-    private String dob;
-    private String address;
 
     public String getUsername() {
         return username;
@@ -36,8 +47,6 @@ public class User implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    private String username;
 
     public String getFname() {
         return fname;
@@ -83,11 +92,12 @@ public class User implements Serializable {
 
     }
 
-    public User(String fname, String mname, String lname, String dob, String address) {
+    public User(String fname, String mname, String lname, String dob, String address, String phoneNumber) {
         this.fname = fname;
         this.mname = mname;
         this.lname = lname;
         this.dob = dob;
         this.address = address;
+        this.phoneNumber = phoneNumber;
     }
 }

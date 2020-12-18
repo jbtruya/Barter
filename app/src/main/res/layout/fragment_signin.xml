@@ -29,7 +29,7 @@
         android:layout_marginStart="117dp"
         android:layout_marginTop="23dp"
         android:layout_marginEnd="117dp"
-        android:text="Start with signin up or signin"
+        android:text="Start with signing up or signing in"
         android:textColor="#424242"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

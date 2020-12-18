@@ -8,6 +8,21 @@ public class Listing implements Serializable {
     private String product_name;
     private String listing_details;
     private int accountid;
+    private String firstname;
+    private String middlename;
+    private String lastname;
+    private String datelisted;
+    private String phonenumber;
+    private int listing_id;
+    private int image_id;
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
 
     public String getGoBackTo() {
         return goBackTo;
@@ -61,10 +76,6 @@ public class Listing implements Serializable {
         this.datelisted = datelisted;
     }
 
-    private String firstname;
-    private String middlename;
-    private String lastname;
-    private String datelisted;
 
     public int getListing_id() {
         return listing_id;
@@ -82,8 +93,6 @@ public class Listing implements Serializable {
         this.image_id = image_id;
     }
 
-    private int listing_id;
-    private int image_id;
 
     public String getImageURL() {
         return imageURL;
@@ -131,7 +140,7 @@ public class Listing implements Serializable {
         this.datelisted = datelisted;
     }
     public Listing(String imageURL, String product_name, String listing_details, int accountid, int listing_id, int image_id,
-                   String firstname, String middlename, String lastname, String datelisted, String userimage) {
+                   String firstname, String middlename, String lastname, String datelisted, String userimage, String phonenumber) {
         this.imageURL = imageURL;
         this.product_name = product_name;
         this.listing_details = listing_details;
@@ -143,9 +152,10 @@ public class Listing implements Serializable {
         this.lastname = lastname;
         this.datelisted = datelisted;
         this.userimage = userimage;
+        this.phonenumber = phonenumber;
     }
     public Listing(String imageURL, String product_name, String listing_details, int accountid, int listing_id, int image_id,
-                   String firstname, String middlename, String lastname, String datelisted, String userimage, String goBackTo) {
+                   String firstname, String middlename, String lastname, String datelisted, String userimage,String goBackTo,String phonenumber ,int temp) {
         this.imageURL = imageURL;
         this.product_name = product_name;
         this.listing_details = listing_details;
@@ -158,5 +168,6 @@ public class Listing implements Serializable {
         this.datelisted = datelisted;
         this.userimage = userimage;
         this.goBackTo = goBackTo;
+        this.phonenumber = phonenumber;
     }
 }

@@ -101,7 +101,13 @@ public class SigninSubmitInfo extends Fragment {
         bttn_submit_SignupInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!checkUsernameIsempty() | !checkPasswordIsempty()){
+                    return;
+                }
+                else{
                     SignInUser(edt_username.getEditText().getText().toString(),edt_password.getEditText().getText().toString());
+                }
+
             }
         });
         //END Submit signin info
@@ -190,5 +196,29 @@ public class SigninSubmitInfo extends Fragment {
         return dialog;
 
         }
+
+    public boolean checkUsernameIsempty(){
+        if(edt_username.getEditText().getText().toString().isEmpty()){
+            edt_username.setError(null);
+            edt_username.setError("Check your username.");
+            return false;
+        }
+        else{
+            edt_username.setError(null);
+            return true;
+        }
+    }
+
+    public boolean checkPasswordIsempty(){
+        if(edt_password.getEditText().getText().toString().isEmpty()){
+            edt_password.setError(null);
+            edt_password.setError("Check your password.");
+            return false;
+        }
+        else{
+            edt_password.setError(null);
+            return true;
+        }
+    }
 
 }

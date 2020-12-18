@@ -3,71 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="420dp"
-    android:layout_marginBottom="10dp"
-    app:cardElevation="10dp">
+    android:layout_height="420dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView_listingImage"
-            android:layout_width="400dp"
+            android:id="@+id/imageView_offerImage"
+            android:layout_width="match_parent"
             android:layout_height="230dp"
-            android:layout_marginBottom="9dp"
+            android:layout_marginTop="43dp"
+            android:layout_marginBottom="8dp"
             android:elevation="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/bttn_message"
+            app:layout_constraintBottom_toTopOf="@+id/bttn_accept"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_offer_details"
             app:srcCompat="@drawable/ic_baseline_image_24" />
 
         <TextView
-            android:id="@+id/tv_product_name"
+            android:id="@+id/tv_offer_productname"
             android:layout_width="253dp"
             android:layout_height="18dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="29dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="142dp"
-            android:layout_marginBottom="7dp"
             android:ellipsize="start"
             android:text="Product Name"
             android:textColor="#000000"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_listing_details"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_userimage" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_userimage2" />
 
         <TextView
-            android:id="@+id/tv_listing_details"
+            android:id="@+id/tv_offer_details"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="7dp"
-            android:ellipsize="end"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="20dp"
+            android:ellipsize="start"
             android:maxLength="50"
             android:maxLines="2"
             android:singleLine="false"
             android:text="Tap to view the details"
             android:textColor="#000000"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_readmore"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/tv_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_offer_productname" />
 
         <Button
-            android:id="@+id/bttn_message"
+            android:id="@+id/bttn_accept"
             android:layout_width="fill_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bttn_custom_ripple_listingbutton"
-            android:drawableLeft="@drawable/ic_baseline_message_24"
             android:ellipsize="middle"
             android:gravity="center"
             android:paddingLeft="150dp"
             android:paddingRight="150dp"
-            android:text="Message"
+            android:text="Accept"
             android:textColor="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -75,52 +74,49 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView_userimage"
+            android:id="@+id/imageView_userimage2"
             android:layout_width="37dp"
             android:layout_height="30dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="358dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/tv_datelisted"
+            android:id="@+id/tv_offer_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="13dp"
+            android:layout_marginBottom="118dp"
             android:text="TextView"
             android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_offerImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_authorname"
+            android:id="@+id/tv_offer_authorname"
             android:layout_width="236dp"
             android:layout_height="19dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="68dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:ellipsize="start"
             android:text="TextView"
             android:textColor="#000000"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_datelisted"
-            app:layout_constraintStart_toEndOf="@+id/imageView_userimage"
+            app:layout_constraintStart_toEndOf="@+id/imageView_userimage2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_readmore"
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="6dp"
-            android:text="Tap Read more"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView_listingImage"
+            android:layout_marginBottom="4dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_offerImage"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

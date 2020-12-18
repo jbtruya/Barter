@@ -43,6 +43,7 @@
         android:layout_marginTop="53dp"
         android:layout_marginEnd="105dp"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/edt_middleName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_fillupforms">
@@ -61,6 +62,7 @@
         android:layout_marginStart="105dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="106dp"
+        app:layout_constraintBottom_toTopOf="@+id/edt_dob"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_middleName">
@@ -84,6 +86,7 @@
         android:enabled="true"
         android:hint="@string/date_of_birth"
         android:importantForAutofill="no"
+        app:layout_constraintBottom_toTopOf="@+id/edt_address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_lastname" />
@@ -94,6 +97,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="105dp"
         android:layout_marginEnd="106dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/edt_phoneNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_dob">
@@ -110,6 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="105dp"
         android:layout_marginEnd="105dp"
+        app:layout_constraintBottom_toTopOf="@+id/edt_lastname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_firstname">
@@ -126,14 +132,35 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="105dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="105dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="106dp"
+        android:layout_marginBottom="125dp"
         android:background="@drawable/bttn_custom_ripple_signin"
         android:text="@string/next"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_address" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_phoneNumber" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_phoneNumber"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintBottom_toTopOf="@+id/bttn_signup_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_address">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone number" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

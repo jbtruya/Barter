@@ -3,19 +3,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".addItem">
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_Actions"
+        android:layout_width="382dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="53dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_itemInfo">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/bttn_selectImage"
+                android:layout_width="330dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="13dp"
+                android:background="@drawable/bttn_custom_ripple_whitebutton"
+                android:elevation="10dp"
+                android:text="SELECT IMAGE"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toTopOf="@+id/bttn_sendOffer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/bttn_sendOffer"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/bttn_custom_ripple_listingbutton"
+                android:text="Edit Listing"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toTopOf="@+id/bttn_deleteListing"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bttn_selectImage" />
+
+            <Button
+                android:id="@+id/bttn_deleteListing"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bttn_custom_ripple_deletebutton"
+                android:text="Delete Listing"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.55"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bttn_sendOffer" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_itemInfo"
         android:layout_width="382dp"
         android:layout_height="450dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="15dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
         app:layout_constraintBottom_toTopOf="@+id/card_Actions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,9 +105,7 @@
                 app:layout_constraintHorizontal_bias="0.489"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_image_24"
-                tools:src="@tools:sample/avatars"
-                tools:srcCompat="@drawable/ic_baseline_image_24" />
+                app:srcCompat="@drawable/ic_baseline_image_24" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edt_productName"
@@ -85,7 +151,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="162dp"
                 android:layout_marginBottom="9dp"
-                android:text="List an item"
+                android:text="Edit Listing"
                 app:layout_constraintBottom_toTopOf="@+id/imageView_selectedImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,57 +160,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_Actions"
-        android:layout_width="382dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="25dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_itemInfo">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/bttn_selectImage"
-                android:layout_width="345dp"
-                android:layout_height="47dp"
-                android:layout_marginStart="19dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="18dp"
-                android:background="@drawable/bttn_custom_ripple_signup"
-                android:elevation="10dp"
-                android:text="SELECT IMAGE"
-                android:textColor="#000000"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/bttn_addListing"
-                android:layout_width="345dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="19dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginBottom="6dp"
-                android:background="@drawable/bttn_custom_ripple_signin"
-                android:text="Add listing"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bttn_selectImage" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

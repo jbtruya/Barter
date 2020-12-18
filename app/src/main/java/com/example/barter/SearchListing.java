@@ -1,6 +1,5 @@
 package com.example.barter;
 
-import android.app.Application;
 import android.app.Dialog;
 import android.os.Bundle;
 
@@ -8,37 +7,44 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.daimajia.androidanimations.library.YoYo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Listingfeed extends Fragment {
 
+public class SearchListing extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     private String mParam1;
     private String mParam2;
 
+    EditText edt_searchProductName;
+    ImageButton imageButton_search;
     RecyclerView recyclerView;
 
     RequestQueue requestQueue;
@@ -50,12 +56,13 @@ public class Listingfeed extends Fragment {
     Bundle bundle;
 
     User user;
-    public Listingfeed() {
+
+    public SearchListing() {
 
     }
 
-    public static Listingfeed newInstance(String param1, String param2) {
-        Listingfeed fragment = new Listingfeed();
+    public static SearchListing newInstance(String param1, String param2) {
+        SearchListing fragment = new SearchListing();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,20 +83,31 @@ public class Listingfeed extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_listingfeed, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_listing, container, false);
+
+        edt_searchProductName = view.findViewById(R.id.edt_searchProductName);
+        imageButton_search = view.findViewById(R.id.imageButton_search);
 
         bundle = new Bundle();
         bundle = getArguments();
         user = (User) bundle.getSerializable("userInfo");
 
         listings = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.listingfeed_recycler);
+        recyclerView = view.findViewById(R.id.recyclerView_Listing);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         listingAdapter = new ListingAdapter(getContext(),listings,user);
 
 
-        loadListingInfo();
+        imageButton_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!edt_searchProductName.getText().toString().isEmpty()){
+                    loadListingInfo(edt_searchProductName.getText().toString());
+                }else{
+                }
 
+            }
+        });
 
         listingAdapter.setOnItemClickListener(new ListingAdapter.OnItemClickListener() {
             @Override
@@ -129,16 +147,15 @@ public class Listingfeed extends Fragment {
             }
         });
 
+
+
         return view;
     }
 
-    private void loadListingInfo(){
-        final Dialog Progressdialog = showLoadingFeedDialog();
-
-        Progressdialog.show();
+    private void loadListingInfo(final String productNameSearch){
 
         requestQueue = Volley.newRequestQueue(getContext());
-        stringRequest = new StringRequest(Request.Method.GET, "https://xototlprojects.com/AndroidPHP/androidGetlistingInfo.php",
+        stringRequest = new StringRequest(Request.Method.POST, "https://xototlprojects.com/AndroidPHP/androidSearchListing.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -146,6 +163,8 @@ public class Listingfeed extends Fragment {
                         try {
                             JSONObject obj = new JSONObject(response);
                             JSONArray jArray = obj.getJSONArray("listingInfo");
+
+                            listings.clear();
 
                             for(int i = 0; i < jArray.length(); i++){
                                 JSONObject jObject = jArray.getJSONObject(i);
@@ -166,39 +185,37 @@ public class Listingfeed extends Fragment {
                                         ));
 
                             }
-
                             recyclerView.setAdapter(listingAdapter);
 
-                            Progressdialog.hide();
-                            Progressdialog.dismiss();
+
 
                         } catch (JSONException e) {
-                            Progressdialog.hide();
-                            Progressdialog.dismiss();
+
                             e.printStackTrace();
                         }
 
                     }
                 },
-            new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Progressdialog.hide();
-                Progressdialog.dismiss();
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
+
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+
+                map.put("productName", productNameSearch);
+
+                return map;
             }
-        });
+        };
 
         requestQueue.add(stringRequest);
     }
 
 
-    public Dialog showLoadingFeedDialog(){
-        Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.loading_listingfeed_dialog);
-
-        dialog.setCancelable(false);
-        return dialog;
-    }
 }

@@ -134,11 +134,11 @@ public class userprofile extends Fragment {
 
         listings = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listingAdapter = new ListingAdapter(getContext(),listings,"invisible");
+        listingAdapter = new ListingAdapter(getContext(),listings,user);
 
-
-        updateViews();
         loadListingInfo();
+        updateViews();
+
 
         YoYo.with(Techniques.Wobble)
                 .duration(1600)
@@ -199,6 +199,9 @@ public class userprofile extends Fragment {
         listingAdapter.setOnItemClickListener(new ListingAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                Bundle mainBundle = new Bundle();
+
+                Bundle listingInfoBundle = new Bundle();
                 listing = new Listing(listings.get(position).getImageURL(),
                         listings.get(position).getProduct_name(),
                         listings.get(position).getListing_details(),
@@ -210,15 +213,22 @@ public class userprofile extends Fragment {
                         listings.get(position).getLastname(),
                         listings.get(position).getDatelisted(),
                         listings.get(position).getUserimage(),
-                        "userProfile");
+                        "listingFeed",
+                        listings.get(position).getPhonenumber(),
+                        0);
 
                 ViewListing viewListing = new ViewListing();
-                bundle.putSerializable("listingInfo",listing);
-                viewListing.setArguments(bundle);
+
+                listingInfoBundle.putSerializable("listingInfo",listing);
+
+                mainBundle.putBundle("userInfo",bundle);
+                mainBundle.putBundle("listingInfo",listingInfoBundle);
+
+                viewListing.setArguments(mainBundle);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame_display,viewListing)
-                        .addToBackStack("userProfile")
+                        .addToBackStack("listingFeed")
                         .commit();
             }
         });
@@ -378,7 +388,9 @@ public class userprofile extends Fragment {
                                                 jObject.getString("middlename"),
                                                 jObject.getString("lastname"),
                                                 jObject.getString("dateListed"),
-                                                jObject.getString("userimage")
+                                                jObject.getString("userimage"),
+                                                jObject.getString("phonenumber")
+
                                         ));
 
                             }

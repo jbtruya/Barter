@@ -126,6 +126,8 @@ public class SignupSubmitInfo extends Fragment {
                             public void onResponse(String response) {
                                 if (response.equals("success")) {
                                     Toast.makeText(getContext(), "User Registered", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(getContext(), "Username not available", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         },
@@ -148,6 +150,7 @@ public class SignupSubmitInfo extends Fragment {
                         map.put("lastname", newUser.getLname());
                         map.put("dateofbirth", newUser.getDob());
                         map.put("address", newUser.getAddress());
+                        map.put("phonenumber", newUser.getPhoneNumber());
 
                         return map;
                     }
@@ -214,4 +217,5 @@ public class SignupSubmitInfo extends Fragment {
         }
     }
     // END input Validation
+
 }
